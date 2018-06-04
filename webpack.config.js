@@ -3,6 +3,12 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
+function resolve (dir) {
+  return path.join(__dirname, '..', dir);
+}
+
 module.exports = {
   mode: 'development',
   entry: {
@@ -75,6 +81,11 @@ module.exports = {
       dry:      false
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new CopyWebpackPlugin([{
+      from: path.resolve(__dirname, 'static'),
+      to: 'static',
+      ignore: ['.*']
+    }])
   ]
 };
