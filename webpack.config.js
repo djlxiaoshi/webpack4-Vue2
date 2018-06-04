@@ -39,7 +39,8 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        use: 'babel-loader'
+        use: 'babel-loader',
+        include: [path.resolve(__dirname, 'src')]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -55,6 +56,13 @@ module.exports = {
           limit: 10000
         }
       },
+      {
+        test: /\.(js|vue)$/,
+        use: 'eslint-loader',
+        enforce: 'pre',
+        include: [path.resolve(__dirname, 'src')],
+        exclude: [path.resolve(__dirname, 'node_modules')]
+      }
     ]
   },
   plugins: [

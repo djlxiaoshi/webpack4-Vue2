@@ -6,11 +6,10 @@
 export default {
   name: 'App',
   data () {
-    return {};
+    return {}
   },
-  props: [],
   methods: {}
-};
+}
 </script>
 
 <style lang="scss">
