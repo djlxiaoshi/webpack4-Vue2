@@ -1,6 +1,6 @@
 // Karma configuration
 // Generated on Wed May 23 2018 20:29:17 GMT+0800 (中国标准时间)
-
+const webpackConfig = require('../webpack.config');
 module.exports = function(config) {
   config.set({
 
@@ -26,20 +26,7 @@ module.exports = function(config) {
       'spec/*.spec.js'
     ],
   
-    webpack: {
-      mode: 'development',
-      module: {
-        rules: [
-          {
-            test: /(\.vue|\.js)$/,
-            use: {
-              loader: "babel-loader"
-            },
-            exclude: /node_modules/
-          }
-        ]
-      }
-    },
+    webpack: webpackConfig,
   
     webpackMiddleware: {
       noInfo: true
