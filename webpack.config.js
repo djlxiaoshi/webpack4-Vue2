@@ -1,63 +1,87 @@
-/**
- * @Author JohnLi
- * @Date 2018/5/31 20:39
- */
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const { VueLoaderPlugin } = require('vue-loader');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  entry : {
-    app: './src/main.js'
+  mode: 'development',
+  entry: {
+    main: './src/main.js'
   },
   output: {
-    path    : path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist'),
     filename: '[name].[hash].js'
   },
-  resolve: {
+  devServer: {
+    contentBase: path.resolve(__dirname, 'dist'),
+    host: "localhost", // 指定使用一个 host。默认是 localhost。如果你希望服务器外部可访问，指定如下： 所有的都能访问 通过ip或者通过localhost
+    compress: true,  // 启用gzip压缩一切服务
+    port: 8080,
+    hot: true,      //  启动热更新模块 或者在命令行中带参数开启
+    overlay: {      //  在编译的时候出现任何错误 就会在网页上面显示黑色的背景和错误的信息
+      warnings: false, // 警告信息一般不开启
+      errors: true    // 错误信息
+    }
   },
-  module: {
+  module : {
     rules: [
       {
         test: /\.vue$/,
+        use: 'vue-loader'
+      },
+      {
+        test: /\.scss$/,
         use: [
-          { loader: 'vue-loader' }
+          'vue-style-loader',
+          'css-loader',
+          'sass-loader'
         ]
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader'
+        use: 'babel-loader',
+        include: [path.resolve(__dirname, 'src')]
       },
       {
-        test: /\.css$/,
-        use: [
-          'vue-style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              // enable CSS Modules
-              modules: true,
-              // customize generated class names
-              localIdentName: '[local]_[hash:base64:8]'
-            }
-          }
-        ]
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000
+        }
+      },
+      {
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000
+        }
+      },
+      {
+        test: /\.(js|vue)$/,
+        use: 'eslint-loader',
+        enforce: 'pre',
+        include: [path.resolve(__dirname, 'src')],
+        exclude: [path.resolve(__dirname, 'node_modules')]
       }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html',
-      inject: true
+      template: 'index.html'
     }),
-    new CleanWebpackPlugin(
-      ['dist'],　 //匹配删除的文件
-      {
-        root: __dirname,       　　　　　　　　　　//根目录
-        verbose:  true,        　　　　　　　　　　//开启在控制台输出信息
-        dry:      false        　　　　　　　　　　//启用删除文件
-      }
-    )
+    new CleanWebpackPlugin(['dist'], {
+      root:     __dirname,
+      verbose:  true,
+      dry:      false
+    }),
+    new webpack.HotModuleReplacementPlugin(),
+    new VueLoaderPlugin(),
+    new CopyWebpackPlugin([{
+      from: path.resolve(__dirname, 'static'),
+      to: 'static',
+      ignore: ['.*']
+    }])
   ]
-}
+};

@@ -7,8 +7,7 @@
     "start": "webpack-dev-server --watch --open",
     "build": "webpack",
     "lint": "eslint --ext .js,.vue src",
-    "unit": "karma start test/karma.conf.js --single-run",
-    "test": "karma start --single-run --browsers PhantomJS"
+    "unit": "karma start test/karma.conf.js --single-run"
   },
   "author": "",
   "license": "ISC",

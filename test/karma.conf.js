@@ -1,6 +1,6 @@
 // Karma configuration
 // Generated on Wed May 23 2018 20:29:17 GMT+0800 (中国标准时间)
-const webpackConfig = require('../webpack.config');
+const webpackConfig = require('../build/webpack.test.conf');
 module.exports = function(config) {
   config.set({
 
@@ -40,7 +40,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'spec/*.js': ['webpack']
+      'spec/*.spec.js': ['webpack']
     },
 
 

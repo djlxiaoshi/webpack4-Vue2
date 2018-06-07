@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import Counter from '../../src/components/Counter.vue'
-
 describe('Counter.vue', () => {
-  
-  it('点击按钮后, count的值应该为1', () => {
+
+  it('点击按钮后, count的值应该为1',  () => {
     //获取组件实例
     const Constructor = Vue.extend(Counter);
     //挂载组件
@@ -17,7 +16,7 @@ describe('Counter.vue', () => {
     //监听点击事件
     vm._watcher.run();
     // 断言:count的值应该是数字1
-    expect(Number(vm.$el.querySelector('.num').textContent)).to.equal(1);
+    expect(Number(vm.$data.count)).to.equal(1);
   })
-  
+
 })
